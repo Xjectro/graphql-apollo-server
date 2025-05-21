@@ -1,0 +1,31 @@
+{
+  "name": "graphql",
+  "version": "1.0.0",
+  "description": "A modern GraphQL API implementation that demonstrates best practices for building scalable and maintainable GraphQL services.",
+  "main": "src/index.ts",
+  "scripts": {
+    "dev": "dotenv -e .env -- nodemon",
+    "format": "prettier --write .",
+    "db:migrate": "npx prisma migrate dev",
+    "db:deploy": "npx prisma migrate deploy",
+    "db:status": "npx prisma migrate status",
+    "db:generate": "npx prisma generate",
+    "db:reset": "npx prisma migrate reset",
+    "db:push": "npx prisma db push"
+  },
+  "keywords": [],
+  "author": "Xjectro",
+  "license": "MIT",
+  "packageManager": "pnpm@10.7.0",
+  "devDependencies": {
+    "dotenv-cli": "^8.0.0",
+    "prettier": "^3.5.3",
+    "prisma": "^6.8.2",
+    "tsx": "^4.19.4"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.8.2",
+    "apollo-server": "^3.13.0",
+    "nodemon": "^3.1.10"
+  }
+}
