@@ -190,14 +190,11 @@ DATABASE_URL="postgresql://username:password@localhost:5432/database_name?schema
 
 # Authentication
 JWT_SECRET="your-secure-jwt-secret"
-JWT_EXPIRES_IN="24h"
 
 # Redis (Optional - for caching)
 REDIS_URL="redis://localhost:6379"
-ENABLE_CACHE=true
 
 # Server
-PORT=4000
 NODE_ENV=development
 ```
 
