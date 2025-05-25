@@ -1,17 +1,24 @@
 {
-  "name": "graphql",
+  "name": "graphql-server",
   "version": "1.0.0",
   "description": "A modern GraphQL API implementation that demonstrates best practices for building scalable and maintainable GraphQL services.",
   "main": "src/index.ts",
   "scripts": {
     "dev": "dotenv -e .env -- nodemon",
+    "start": "dotenv -e .env -- node ./dist/index.js",
     "format": "prettier --write .",
+    "lint": "pnpm dlx eslint src/ eslint.config.mjs",
+    "build": "tsup",
+    "check-types": "tsc --noEmit",
     "db:migrate": "npx prisma migrate dev",
     "db:deploy": "npx prisma migrate deploy",
     "db:status": "npx prisma migrate status",
     "db:generate": "npx prisma generate",
     "db:reset": "npx prisma migrate reset",
-    "db:push": "npx prisma db push"
+    "db:push": "npx prisma db push",
+    "docker": "docker-compose up -d",
+    "docker:stop": "docker-compose down",
+    "docker:logs": "docker-compose logs -f"
   },
   "keywords": [],
   "author": "Xjectro",
@@ -21,11 +28,18 @@
     "dotenv-cli": "^8.0.0",
     "prettier": "^3.5.3",
     "prisma": "^6.8.2",
-    "tsx": "^4.19.4"
+    "tsx": "^4.19.4",
+    "typescript": "^5.8.3"
   },
   "dependencies": {
+    "@types/bcrypt": "^5.0.2",
     "@prisma/client": "^6.8.2",
+    "@xjectro/jwt": "^1.0.11",
     "apollo-server": "^3.13.0",
-    "nodemon": "^3.1.10"
+    "bcrypt": "^6.0.0",
+    "graphql": "^16.11.0",
+    "nodemon": "^3.1.10",
+    "redis": "^5.1.0",
+    "tsup": "^8.5.0"
   }
 }

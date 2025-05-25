@@ -13,7 +13,13 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Turtle {
-  turtle_id Int    @id @default(autoincrement())
-  name      String @unique @default("Xjectro")
+model User {
+  id         String   @id @unique @default(uuid()) @map("user_id")
+  firstName  String   @map("first_name")
+  lastName   String   @map("last_name")
+  email      String   @unique
+  password   String
+  permission Int?  @default(1) // 1 = user, 2 = admin
+  createdAt  DateTime? @default(now()) @map("created_at")
+  updatedAt  DateTime? @updatedAt @map("updated_at")
 }

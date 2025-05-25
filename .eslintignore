@@ -1,0 +1,6 @@
+node_modules/
+migrations/
+dist/
+.gitkeep
+pnpm-lock.yaml
+coverage/

@@ -1,131 +1,327 @@
-# 🚀 GraphQL API with TypeScript, Prisma & Apollo Server
+# GraphQL Server ✨🚀
 
-A modern GraphQL API implementation that demonstrates best practices for building scalable and maintainable GraphQL services.
+<div align="center">
+  
+![GraphQL](https://img.shields.io/badge/-GraphQL-E10098?style=for-the-badge&logo=graphql&logoColor=white)
+![TypeScript](https://img.shields.io/badge/-TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+![Prisma](https://img.shields.io/badge/-Prisma-2D3748?style=for-the-badge&logo=prisma&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/-PostgreSQL-336791?style=for-the-badge&logo=postgresql&logoColor=white)
+![Apollo GraphQL](https://img.shields.io/badge/-Apollo%20GraphQL-311C87?style=for-the-badge&logo=apollo-graphql&logoColor=white)
+![Docker](https://img.shields.io/badge/-Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
+![Redis](https://img.shields.io/badge/-Redis-DC382D?style=for-the-badge&logo=redis&logoColor=white)
+
+</div>
+
+<p align="center">🏗️ A modern GraphQL API server - showcasing best practices for building scalable and maintainable GraphQL services 🏗️</p>
+
+## 📋 Table of Contents
+
+- [✨ Features](#-features)
+- [🛠️ Technology Stack](#️-technology-stack)
+- [🏗️ Architecture](#️-architecture)
+- [📁 Project Structure](#-project-structure)
+- [📝 GraphQL Schema](#-graphql-schema)
+- [🚀 Getting Started](#-getting-started)
+  - [🔧 Prerequisites](#-prerequisites)
+  - [⚙️ Installation](#️-installation)
+  - [🔑 Environment Variables](#-environment-variables)
+- [💻 Development](#-development)
+- [🗄️ Database Management](#️-database-management)
+- [🏭 Production Deployment](#-production-deployment)
+- [🐳 Docker Deployment](#-docker-deployment)
+- [📚 API Documentation](#-api-documentation)
+- [📄 License](#-license)
 
 ## ✨ Features
 
-- **GraphQL API** using Apollo Server for efficient data fetching
-- **TypeScript** for type safety and improved developer experience
-- **Prisma ORM** for type-safe database access and migrations
-- **PostgreSQL** for reliable data storage
-- **Modular Architecture** with clear separation of concerns
-- **Development Tools** for a streamlined development workflow
+- **🔮 GraphQL API**: Robust GraphQL support with type checking powered by Apollo Server
+- **📝 TypeScript**: Fully typed codebase for improved developer experience and code quality
+- **🔐 Authentication & Authorization**: JWT-based authentication with role-based permissions
+- **🗃️ Database Integration**: PostgreSQL database with Prisma ORM for type-safe queries
+- **⚡ Caching**: Redis-based caching for improved performance
+- **📦 Docker Support**: Containerized deployment for consistent environments
+- **🧩 GraphQL Directives**: Custom directives for authentication and authorization control
+- **📈 Scalable Architecture**: Service-based architecture for maintainability and scalability
 
-## 🛠️ Tech Stack
+## 🛠️ Technology Stack
 
-- **Backend Framework**: Apollo Server
-- **Language**: TypeScript
-- **ORM**: Prisma
-- **Database**: PostgreSQL
-- **Package Manager**: pnpm
-- **Development Tools**: Nodemon, Prettier, dotenv
+| Technology    | Description                                |
+| ------------- | ------------------------------------------ |
+| Node.js       | JavaScript runtime environment             |
+| TypeScript    | Typed JavaScript for better tooling        |
+| Apollo Server | GraphQL server implementation              |
+| Prisma        | Next-generation TypeScript ORM             |
+| PostgreSQL    | Powerful open-source relational database   |
+| Redis         | In-memory data structure store for caching |
+| Docker        | Containerization platform                  |
+| JWT           | JSON Web Token for authentication          |
 
-## 📋 Prerequisites
+## 🏗️ Architecture
 
-- Node.js (>= 16.x)
-- pnpm (>= 10.7.0)
-- PostgreSQL database
+This API follows a layered architecture approach:
 
-## 🚀 Getting Started
-
-### Installation
-
-```bash
-# Clone the repository
-git clone https://github.com/Xjectro/graphql.git
-cd graphql
-
-# Install dependencies
-pnpm install
+```
+Client Request → GraphQL API → Resolvers → Services → Data Access (Prisma) → Database
 ```
 
-### Configuration
-
-Create a `.env` file in the root directory with your database connection string:
-
-```env
-DATABASE_URL="postgresql://username:password@localhost:5432/graphql"
-```
-
-### Database Setup
-
-```bash
-# Create migrations based on your schema
-pnpm db:migrate
-
-# Generate Prisma client
-pnpm db:generate
-```
-
-### Running the Application
-
-```bash
-# Start the development server
-pnpm dev
-```
-
-The GraphQL server will be running at `http://localhost:4000`.
-
-## 📊 API Reference
-
-### Available Queries
-
-```graphql
-# Get all turtles
-query {
-  turtles {
-    id
-    name
-  }
-}
-```
-
-### Available Mutations
-
-```graphql
-# Create a new turtle
-mutation {
-  createTurtle(name: "Leonardo") {
-    id
-    name
-  }
-}
-```
+- **📊 GraphQL Layer**: Handles incoming requests and response formatting
+- **🔄 Resolver Layer**: Maps GraphQL operations to service functions
+- **🧠 Service Layer**: Contains business logic and calls data access methods
+- **💾 Data Access Layer**: Interacts with the database via Prisma
 
 ## 📁 Project Structure
 
 ```
-├─ src/
-│  ├─ graphql/          # GraphQL schemas and resolvers
-│  │  ├─ resolvers/     # Query and mutation resolvers
-│  │  ├─ schemas/       # GraphQL type definitions
-│  ├─ models/           # Database client setup
-│  ├─ services/         # Business logic layer
-│  └─ index.ts          # Server entry point
-├─ prisma/              # Prisma schema and migrations
-└─ ...config files
+graphql/
+├── docker-compose.yml    # Docker compose configuration
+├── Dockerfile            # Docker configuration
+├── prisma/               # Prisma ORM configurations
+│   ├── schema.prisma     # Database schema
+│   └── migrations/       # Database migrations
+├── src/
+│   ├── graphql/          # GraphQL schemas and resolvers
+│   │   ├── directives/   # Custom GraphQL directives
+│   │   ├── resolvers/    # GraphQL resolvers
+│   │   └── schemas/      # GraphQL type definitions
+│   ├── models/           # Database client models
+│   │   ├── prisma.client.ts  # Prisma client
+│   │   └── redis.client.ts   # Redis client
+│   ├── services/         # Business logic services
+│   └── types/            # TypeScript type definitions
+└── ...
 ```
 
-## 🔧 Development
+## 📝 GraphQL Schema
 
-### Available Scripts
+The GraphQL API provides the following core types and operations:
 
-- `pnpm dev` - Start development server with hot reload
-- `pnpm format` - Format code with Prettier
-- `pnpm db:migrate` - Create new database migrations
-- `pnpm db:generate` - Generate Prisma client
-- `pnpm db:reset` - Reset the database
-- `pnpm db:status` - Check migration status
-- `pnpm db:push` - Push schema changes to database
+### 📊 Types
+
+```graphql
+# User type
+type User {
+  id: ID!
+  firstName: String!
+  lastName: String!
+  email: String!
+  password: String!
+  permission: Int!
+  createdAt: String!
+  updatedAt: String!
+}
+
+# Authentication response type
+type AuthPayload {
+  token: String!
+}
+
+# Custom directives
+directive @hasPermission(permission: Int!) on FIELD_DEFINITION
+directive @authenticated on FIELD_DEFINITION
+```
+
+### 🔍 Queries
+
+```graphql
+type Query {
+  currentUser: User @authenticated # Returns the currently logged-in user
+}
+```
+
+### 🔄 Mutations
+
+```graphql
+type Mutation {
+  signUp(input: SignUpInput!): User! # Creates a new user
+  signIn(input: SignInInput!): AuthPayload! # Logs in a user and returns a token
+}
+
+input SignUpInput {
+  firstName: String!
+  lastName: String!
+  email: String!
+  password: String!
+}
+
+input SignInInput {
+  email: String!
+  password: String!
+}
+```
+
+## 🚀 Getting Started
+
+### 🔧 Prerequisites
+
+- Node.js 18+ ([Download](https://nodejs.org/))
+- PNPM 10+ ([Installation](https://pnpm.io/installation))
+- PostgreSQL ([Download](https://www.postgresql.org/download/))
+- Redis (optional, for caching) ([Download](https://redis.io/download))
+- Docker & Docker Compose (optional, for containerization) ([Download](https://www.docker.com/products/docker-desktop/))
+
+### ⚙️ Installation
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/Xjectro/graphql-server
+   cd graphql-server
+   ```
+
+2. Install dependencies:
+
+   ```bash
+   pnpm install
+   ```
+
+3. Generate Prisma client:
+
+   ```bash
+   pnpm db:generate
+   ```
+
+### 🔑 Environment Variables
+
+Create a `.env` file in the root directory:
+
+```dotenv
+# Database
+DATABASE_URL="postgresql://username:password@localhost:5432/database_name?schema=public"
+
+# Authentication
+JWT_SECRET="your-secure-jwt-secret"
+JWT_EXPIRES_IN="24h"
+
+# Redis (Optional - for caching)
+REDIS_URL="redis://localhost:6379"
+ENABLE_CACHE=true
+
+# Server
+PORT=4000
+NODE_ENV=development
+```
+
+## 💻 Development
+
+Run the development server:
+
+```bash
+pnpm dev
+```
+
+The GraphQL playground will be available at: http://localhost:4000/graphql
+
+## 🗄️ Database Management
+
+This project uses Prisma for database management. Available commands:
+
+```bash
+# Create and apply migrations based on schema changes
+pnpm db:migrate
+
+# Apply existing migrations to the database
+pnpm db:deploy
+
+# Check migration status
+pnpm db:status
+
+# Regenerate Prisma client
+pnpm db:generate
+
+# Reset database (caution: deletes all data)
+pnpm db:reset
+
+# Push schema changes without migrations (for development)
+pnpm db:push
+```
+
+## 🏭 Production Deployment
+
+Build and start the production server:
+
+```bash
+pnpm build
+pnpm start
+```
+
+## 🐳 Docker Deployment
+
+Build and run with Docker Compose:
+
+```bash
+# Start all services
+pnpm docker
+
+# Stop all services
+pnpm docker:stop
+
+# View logs
+pnpm docker:logs
+```
+
+The Docker setup includes:
+
+- GraphQL API server
+- PostgreSQL database
+- Redis cache
+
+## 📚 API Documentation
+
+When the server is running, you can access the GraphQL Playground at `http://localhost:4000/graphql`, which provides:
+
+- Interactive query builder
+- Schema documentation
+- Real-time testing of queries and mutations
+
+### 📝 Example Queries
+
+#### Create a new user
+
+```graphql
+mutation {
+  signUp(
+    input: {
+      firstName: "John"
+      lastName: "Doe"
+      email: "john.doe@example.com"
+      password: "securePassword123"
+    }
+  ) {
+    id
+    firstName
+    lastName
+    email
+  }
+}
+```
+
+#### Login
+
+```graphql
+mutation {
+  signIn(
+    input: { email: "john.doe@example.com", password: "securePassword123" }
+  ) {
+    token
+  }
+}
+```
+
+#### Get user profile (authentication required)
+
+```graphql
+query {
+  currentUser {
+    id
+    firstName
+    lastName
+    email
+  }
+}
+```
+
+> 🔐 Note: To use the `currentUser` query, you need to send a token in your HTTP headers as `Authorization: Bearer <token>`.
 
 ## 📄 License
 
-This project is licensed under the ISC License - see the [LICENSE](LICENSE) file for details.
-
-## 🤝 Contributing
-
-Contributions, issues, and feature requests are welcome! Feel free to check the [issues page](https://github.com/Xjectro/graphql/issues).
-
-## 📬 Contact
-
-Project Link: [https://github.com/Xjectro/graphql](https://github.com/Xjectro/graphql)
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
