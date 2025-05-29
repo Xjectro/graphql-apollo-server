@@ -1,4 +1,4 @@
-# GraphQL SApollo ✨🚀
+# GraphQL Apollo Server ✨🚀
 
 <div align="center">
   
