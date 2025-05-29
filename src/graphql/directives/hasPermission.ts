@@ -1,6 +1,6 @@
+import { Context } from "@/types";
 import { defaultFieldResolver, GraphQLSchema } from "graphql";
 import { mapSchema, getDirective, MapperKind } from "@graphql-tools/utils";
-import { Context } from "@/types";
 
 export function hasPermissionDirectiveTransformer(
   schema: GraphQLSchema,

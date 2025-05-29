@@ -1,5 +1,5 @@
-import UserService from "@/services/user.service";
 import { User } from "@prisma/client";
+import UserService from "@/services/user.service";
 import { Context, ResolverParent, ResolverArgs } from "@/types";
 
 export const userResolvers = {
@@ -14,7 +14,7 @@ export const userResolvers = {
     },
   },
   Mutation: {
-    signUp: async (
+    createUser: async (
       _: ResolverParent,
       args: ResolverArgs<
         Pick<User, "firstName" | "lastName" | "email" | "password">
@@ -24,9 +24,9 @@ export const userResolvers = {
       if (!user) {
         throw new Error("User already exists or invalid input");
       }
-      return user;
+      return { success: true };
     },
-    signIn: async (
+    authentication: async (
       _: ResolverParent,
       args: ResolverArgs<Pick<User, "email" | "password">>,
     ) => {

@@ -1,6 +1,4 @@
-import { gql } from "apollo-server";
-
-export const commonSchema = gql`
+export const baseSchema = `#graphql
   directive @hasPermission(permission: Int!) on FIELD_DEFINITION
 
   directive @authenticated on FIELD_DEFINITION

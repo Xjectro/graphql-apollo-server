@@ -1,4 +1,4 @@
-# GraphQL Server ✨🚀
+# GraphQL SApollo ✨🚀
 
 <div align="center">
   
@@ -111,8 +111,8 @@ type User {
 }
 
 # Authentication response type
-type AuthPayload {
-  token: String!
+type AuthenticationResponse {
+  token: String
 }
 
 # Custom directives
@@ -132,18 +132,18 @@ type Query {
 
 ```graphql
 type Mutation {
-  signUp(input: SignUpInput!): User! # Creates a new user
-  signIn(input: SignInInput!): AuthPayload! # Logs in a user and returns a token
+  createUser(input: CreateUserInput!): CreateUserResponse! # Creates a new user
+  authentication(input: AuthenticationInput!): AuthenticationResponse! # Logs in a user and returns a token
 }
 
-input SignUpInput {
+input CreateUserInput {
   firstName: String!
   lastName: String!
   email: String!
   password: String!
 }
 
-input SignInInput {
+input AuthenticationInput {
   email: String!
   password: String!
 }
@@ -164,8 +164,8 @@ input SignInInput {
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/Xjectro/graphql-server
-   cd graphql-server
+   git clone https://github.com/Xjectro/graphql-apollo-server
+   cd graphql-apollo-server
    ```
 
 2. Install dependencies:
@@ -190,11 +190,14 @@ DATABASE_URL="postgresql://username:password@localhost:5432/database_name?schema
 
 # Authentication
 JWT_SECRET="your-secure-jwt-secret"
+JWT_EXPIRES_IN="24h"
 
 # Redis (Optional - for caching)
 REDIS_URL="redis://localhost:6379"
+ENABLE_CACHE=true
 
 # Server
+PORT=4000
 NODE_ENV=development
 ```
 

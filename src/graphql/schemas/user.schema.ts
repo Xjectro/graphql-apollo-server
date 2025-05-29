@@ -1,18 +1,20 @@
-import { gql } from "apollo-server";
-
-export const userSchema = gql`
-  type AuthPayload {
-    token: String!
+export const userSchema = `#graphql
+  type AuthenticationResponse {
+    token: String
   }
 
-  input SignUpInput {
+  type CreateUserResponse  {
+    success: Boolean
+  }
+
+  input CreateUserInput {
     firstName: String!
     lastName: String!
     email: String!
     password: String!
   }
 
-  input SignInInput {
+  input AuthenticationInput {
     email: String!
     password: String!
   }
@@ -22,7 +24,7 @@ export const userSchema = gql`
   }
 
   type Mutation {
-    signUp(input: SignUpInput!): User!
-    signIn(input: SignInInput!): AuthPayload!
+    createUser(input: CreateUserInput!): CreateUserResponse!
+    authentication(input: AuthenticationInput!): AuthenticationResponse!
   }
 `;

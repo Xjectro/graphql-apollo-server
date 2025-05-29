@@ -1,7 +1,5 @@
-version: "3.9"
-
 networks:
-  app-network:
+  graphql-network:
     driver: bridge
 
 volumes:
@@ -9,8 +7,30 @@ volumes:
   redis-data:
 
 services:
+  graphql-redis:
+    image: redis:7
+    container_name: graphql-redis
+    networks:
+      - graphql-network
+
+  graphql-db:
+    image: postgres:15
+    container_name: graphql-db
+    restart: always
+    environment:
+      POSTGRES_USER: graphql
+      POSTGRES_PASSWORD: secret-password-xjectro:D
+      POSTGRES_DB: graphql
+    ports:
+      - "5432:5432"
+    networks:
+      - graphql-network
+
   graphql:
-    container_name: graphql-api
+    container_name: graphql
+    depends_on:
+      - graphql-db
+      - graphql-redis
     build:
       context: .
       dockerfile: Dockerfile
@@ -18,66 +38,9 @@ services:
       - "4000:4000"
     env_file:
       - .env
-    environment:
-      - NODE_ENV=production
-      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/graphql?schema=public
-      - REDIS_URL=redis://redis:6379
-      - ENABLE_CACHE=true
     networks:
-      - app-network
-    depends_on:
-      - postgres
-      - redis
-    restart: unless-stopped
-    healthcheck:
-      test:
-        [
-          "CMD",
-          "wget",
-          "--quiet",
-          "--tries=1",
-          "--spider",
-          "http://localhost:4000",
-        ]
-      interval: 30s
-      timeout: 5s
-      retries: 3
-      start_period: 10s
-
-  postgres:
-    image: postgres:14-alpine
-    container_name: graphql-postgres
-    ports:
-      - "5432:5432"
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=graphql
-    volumes:
-      - postgres-data:/var/lib/postgresql/data
-    networks:
-      - app-network
-    restart: unless-stopped
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 10s
-      timeout: 5s
-      retries: 3
-      start_period: 10s
-
-  redis:
-    image: redis:7-alpine
-    container_name: graphql-redis
-    ports:
-      - "6379:6379"
-    volumes:
-      - redis-data:/data
-    command: redis-server --save 60 1 --loglevel warning
-    networks:
-      - app-network
-    restart: unless-stopped
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 10s
-      timeout: 5s
-      retries: 3
+      - graphql-network
+    command: sh -c "
+      until pg_isready -h graphql-db -p 5432; do echo 'waiting for postgres...'; sleep 1; done && \
+      pnpm db:reset && pnpm db:migrate && pnpm db:generate && \
+      pnpm run build && pnpm run start"
