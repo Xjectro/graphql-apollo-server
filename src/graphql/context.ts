@@ -1,9 +1,13 @@
 import UserService from "@/services/user.service";
-import { ExpressContext } from "apollo-server-express";
+import { ContextFunction } from "@apollo/server";
+import { StandaloneServerContextFunctionArgument as ServerContextArg } from "@apollo/server/standalone";
 
 const ctx = { isAuthenticated: false, user: null };
 
-export const context = async ({ req, res }: ExpressContext) => {
+export const context: ContextFunction<[ServerContextArg]> = async ({
+  req,
+  res,
+}) => {
   const authorization = req.headers["authorization"];
   const token = authorization?.split(" ")[1];
 
