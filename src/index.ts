@@ -14,7 +14,7 @@ async function start() {
     context,
   });
 
-  console.log(`Server ready at ${url}`);
+  console.log(`Server ready ${url}`);
 }
 
 start();
